@@ -6,6 +6,7 @@ import A1B1O3.bodyrecord.report.domain.repository.Report;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.time.LocalDate;
 
@@ -21,7 +22,6 @@ public class ChallengeCertificationReportDetailResponse {
     private final LocalDate reportDate;
     private final int challengecerCode;
     private final String reportContent;
-    private final String challengeCertificationImage;
 
     public static ChallengeCertificationReportDetailResponse from(final Report report, Member member, ChallengeCertification challengeCertification) {
         return new ChallengeCertificationReportDetailResponse(
@@ -29,8 +29,9 @@ public class ChallengeCertificationReportDetailResponse {
                 member.getMemberName(),
                 report.getReportDate(),
                 challengeCertification.getChallengecerCode(),
-                report.getReportContent(),
-                challengeCertification.getChallengeImage()
+                report.getReportContent()
+
         );
     }
+
 }
