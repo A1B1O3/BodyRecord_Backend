@@ -4,6 +4,7 @@ import A1B1O3.bodyrecord.exercise.domain.Exercise;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.sql.Time;
 import java.util.Date;
@@ -30,7 +31,8 @@ public class ExerciseResponse {
     private final Date exerciseDate;
 
 
-    public static ExerciseResponse from(final Exercise exercise) {
+    public static ExerciseResponse from(final Exercise exercise, @Value("${image.image-url}") final String imageUrl) {
+        exercise.setExerciseImagePath(imageUrl + exercise.getExerciseImagePath());
         return new ExerciseResponse(
                 exercise.getExerciseName(),
                 exercise.getExerciseWeight(),
