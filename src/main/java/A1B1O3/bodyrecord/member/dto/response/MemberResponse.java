@@ -4,6 +4,7 @@ import A1B1O3.bodyrecord.member.domain.Member;
 import A1B1O3.bodyrecord.member.domain.MemberState;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 
 import static lombok.AccessLevel.PRIVATE;
 
@@ -16,7 +17,8 @@ public class MemberResponse {
     private final String memberImage;
     private final String memberNickname;
     private final MemberState status;
-    public static MemberResponse from(final Member member) {
+    public static MemberResponse from(final Member member, @Value("${image.image-url}") final String imageUrl) {
+        member.setMemberImage(imageUrl + member.getMemberImage());
         return new MemberResponse(
                 member.getMemberCode(),
                 member.getMemberSocialid(),
