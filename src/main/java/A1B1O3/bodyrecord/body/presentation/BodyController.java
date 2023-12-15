@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.io.IOException;
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -47,7 +48,7 @@ public class BodyController {
     @PostMapping
     public ResponseEntity<Void> insert(@ModelAttribute @Valid BodyRequest bodyRequest, @AuthenticationPrincipal PrincipalDetails principalDetails) throws IOException {
         bodyService.insert(bodyRequest,principalDetails);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        return ResponseEntity.created(URI.create("/body/log")).build();
     }
 
     @PutMapping

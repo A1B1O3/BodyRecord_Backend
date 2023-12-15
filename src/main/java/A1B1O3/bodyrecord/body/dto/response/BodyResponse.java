@@ -2,8 +2,10 @@ package A1B1O3.bodyrecord.body.dto.response;
 
 import A1B1O3.bodyrecord.body.domain.Body;
 import A1B1O3.bodyrecord.common.type.StatusType;
+import A1B1O3.bodyrecord.member.domain.Member;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 
 import static lombok.AccessLevel.PRIVATE;
 

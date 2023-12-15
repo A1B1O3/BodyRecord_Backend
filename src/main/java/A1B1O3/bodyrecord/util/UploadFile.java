@@ -36,7 +36,7 @@ public class UploadFile {
         UUID uuid = UUID.randomUUID();
         String fileName = uuid + "_" + file.getOriginalFilename();
         String dir = makeDir("profileImages");
-        File saveFile = new File(uploadPath, fileName);
+        File saveFile = new File(uploadPath+dir, fileName);
         saveFile.createNewFile();
         file.transferTo(saveFile);
         return (dir + "/" + fileName);
