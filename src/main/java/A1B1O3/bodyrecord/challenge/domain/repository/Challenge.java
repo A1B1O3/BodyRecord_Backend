@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -21,7 +22,7 @@ import static lombok.AccessLevel.PUBLIC;
 @Setter
 @NoArgsConstructor(access = PUBLIC)
 @SQLDelete(sql = "UPDATE challenge SET state = 'DELETED' WHERE challenge_code = ?")
-//@Where(clause = "state = 'USEABLE'")
+@Where(clause = "state = 'USEABLE'")
 public class Challenge extends BaseEntity {
 
     @Id
@@ -70,6 +71,5 @@ public class Challenge extends BaseEntity {
         this.challengeStartdate = challengeStartdate;
         this.challengeEnddate = challengeEnddate;
     }
-
 
 }

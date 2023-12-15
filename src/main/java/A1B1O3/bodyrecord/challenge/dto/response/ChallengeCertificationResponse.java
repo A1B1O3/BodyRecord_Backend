@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.time.LocalDateTime;
 
@@ -24,10 +25,11 @@ public class ChallengeCertificationResponse {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private final LocalDateTime createdAt;
 
-    public static ChallengeCertificationResponse from(final ChallengeCertification challengeCertification, Challenge challenge, Member member) {
+    public static ChallengeCertificationResponse from(final ChallengeCertification challengeCertification, Challenge challenge, Member member, @Value("${image.image-url}") final String imageUrlPrefix) {
+
         return new ChallengeCertificationResponse(
                 challengeCertification.getChallengecerCode(),
-                challengeCertification.getChallengeImage(),
+                challengeCertification.getFullImageUrl(imageUrlPrefix),
                 challenge.getChallengeCode(),
                 member.getMemberName(),
                 challengeCertification.getCreatedAt()

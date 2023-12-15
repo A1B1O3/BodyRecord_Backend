@@ -147,14 +147,14 @@ public class ChallengeService {
 
 
     /* 7. 챌린지 인증 조회 */
-    public List<ChallengeCertificationResponse> getChallengeCertifications(int challengeCode) {
+    public List<ChallengeCertificationResponse> getChallengeCertifications(int challengeCode, String imageUrlPrefix) {
         Challenge challenge = challengeRepository.findByChallengeCode(challengeCode)
                 .orElseThrow(() -> new EntityNotFoundException("Challenge not found with code: " + challengeCode));
 
         List<ChallengeCertification> certifications = challengeCertificationRepository.findByChallengeCode(challenge);
 
         return certifications.stream()
-                .map(certification -> ChallengeCertificationResponse.from(certification, challenge, certification.getMemberCode()))
+                .map(certification -> ChallengeCertificationResponse.from(certification, challenge, certification.getMemberCode(), imageUrlPrefix))
                 .collect(Collectors.toList());
     }
 

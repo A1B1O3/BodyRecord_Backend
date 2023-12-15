@@ -47,4 +47,8 @@ public class ChallengeCertification extends BaseEntity {
         this.challengeImage = challengeImage;
         this.challengeCode = challengeCode;
     }
+
+    public String getFullImageUrl(String imageUrlPrefix) {
+        return imageUrlPrefix + challengeImage;
+    }
 }

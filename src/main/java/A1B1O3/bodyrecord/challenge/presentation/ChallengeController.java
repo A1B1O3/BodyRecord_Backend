@@ -7,6 +7,7 @@ import A1B1O3.bodyrecord.challenge.service.ChallengeService;
 import A1B1O3.bodyrecord.common.exception.UnauthorizedException;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -119,8 +120,8 @@ public class ChallengeController {
     })
     /* 7. 챌린지 인증 조회 */
     @GetMapping("/certifications/{challengeCode}")
-    public ResponseEntity<List<ChallengeCertificationResponse>> getChallengeCertifications(@PathVariable int challengeCode) {
-        List<ChallengeCertificationResponse> certifications = challengeService.getChallengeCertifications(challengeCode);
+    public ResponseEntity<List<ChallengeCertificationResponse>> getChallengeCertifications(@PathVariable int challengeCode, @Value("${image.image-url}") String imageUrlPrefix) {
+        List<ChallengeCertificationResponse> certifications = challengeService.getChallengeCertifications(challengeCode, imageUrlPrefix);
         return ResponseEntity.ok(certifications);
     }
 

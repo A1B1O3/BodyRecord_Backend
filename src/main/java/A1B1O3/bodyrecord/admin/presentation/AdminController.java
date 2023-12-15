@@ -4,6 +4,7 @@ import A1B1O3.bodyrecord.admin.dto.response.*;
 import A1B1O3.bodyrecord.admin.service.AdminService;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -118,8 +119,8 @@ public class AdminController {
     })
     /* 8. 관리자 챌린지인증 조회 */
     @GetMapping("/certifications")
-    public ResponseEntity<List<ChallengeCertificationAdminResponse>> getChallengeCertificationsAdmin() {
-        List<ChallengeCertificationAdminResponse> certifications = adminService.getChallengeCertificationsAdmin();
+    public ResponseEntity<List<ChallengeCertificationAdminResponse>> getChallengeCertificationsAdmin(@Value("${image.image-url}") String imageUrlPrefix) {
+        List<ChallengeCertificationAdminResponse> certifications = adminService.getChallengeCertificationsAdmin(imageUrlPrefix);
         return ResponseEntity.ok(certifications);
     }
 

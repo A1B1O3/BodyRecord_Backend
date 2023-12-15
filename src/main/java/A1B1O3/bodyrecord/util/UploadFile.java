@@ -13,7 +13,6 @@ public class UploadFile {
     @Value("${image.image-dir}")
     private String uploadPath;
 
-
     public String makeDir(String dirName){
         String exerciseImages = File.separator + dirName;
         if(!new File(uploadPath + exerciseImages, exerciseImages).exists()) {
@@ -46,7 +45,7 @@ public class UploadFile {
         UUID uuid = UUID.randomUUID();
         String fileName = uuid + "_" + challengeImageFile.getOriginalFilename();
         String dir =makeDir("challengeImages");
-        File saveFile = new File(uploadPath, fileName);
+        File saveFile = new File(uploadPath+dir, fileName);
         challengeImageFile.transferTo(saveFile);
         return (dir + "/" + fileName);
     }

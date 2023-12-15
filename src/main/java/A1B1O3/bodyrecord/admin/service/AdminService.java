@@ -2,6 +2,8 @@ package A1B1O3.bodyrecord.admin.service;
 
 import A1B1O3.bodyrecord.admin.dto.response.*;
 import A1B1O3.bodyrecord.challenge.domain.repository.*;
+import A1B1O3.bodyrecord.common.BaseEntity;
+import A1B1O3.bodyrecord.common.type.StatusType;
 import A1B1O3.bodyrecord.member.domain.Member;
 import A1B1O3.bodyrecord.member.domain.repository.MemberRepository;
 import A1B1O3.bodyrecord.report.domain.repository.*;
@@ -11,7 +13,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -27,6 +31,26 @@ public class AdminService {
     private final ReportCategoryRepository reportCategoryRepository;
 
     /* 1. 챌린지신고 목록조회 */
+//    @Transactional(readOnly = true)
+//    public List<ChallengeReportResponse> getChallengeReports() {
+//        ReportCategory challengeReportCategory = reportCategoryRepository.findById(1)
+//                .orElseThrow(() -> new EntityNotFoundException("챌린지 신고 카테고리를 찾을 수 없습니다."));
+//
+//        List<Report> challengeReports = reportRepository.findByReportcategoryCode(challengeReportCategory);
+//
+//        return challengeReports.stream()
+//                .filter(report -> {
+//                    Challenge challenge = report.getChallengeCode();
+//                    return challenge != null && challenge.getState() == StatusType.USEABLE;
+//                })
+//                .map(report -> {
+//                    Member member = (Member) memberRepository.findByMemberCode(report.getMemberCode().getMemberCode())
+//                            .orElseThrow(() -> new EntityNotFoundException("Reported member not found with code: " + report.getMemberCode().getMemberCode()));
+//                    return ChallengeReportResponse.from(report, member);
+//                })
+//                .collect(Collectors.toList());
+//    }
+
     @Transactional(readOnly = true)
     public List<ChallengeReportResponse> getChallengeReports() {
         ReportCategory challengeReportCategory = reportCategoryRepository.findById(1)
@@ -75,6 +99,7 @@ public class AdminService {
     }
 
 
+
     /* 4. 챌린지인증신고 상세조회 */
     @Transactional(readOnly = true)
     public ChallengeCertificationReportDetailResponse getChallengeCertificationReportDetails(int reportCode) {
@@ -119,10 +144,10 @@ public class AdminService {
 
     /* 8. 관리자 챌린지 인증 조회 */
     @Transactional(readOnly = true)
-    public List<ChallengeCertificationAdminResponse> getChallengeCertificationsAdmin() {
+    public List<ChallengeCertificationAdminResponse> getChallengeCertificationsAdmin(String imageUrlPrefix) {
         List<ChallengeCertification> certifications = challengeCertificationRepository.findAll();
         return certifications.stream()
-                .map(certification -> ChallengeCertificationAdminResponse.from(certification, certification.getChallengeCode(), certification.getMemberCode()))
+                .map(certification -> ChallengeCertificationAdminResponse.from(certification, certification.getChallengeCode(), certification.getMemberCode(), imageUrlPrefix))
                 .collect(Collectors.toList());
     }
 
