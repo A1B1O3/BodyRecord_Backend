@@ -15,6 +15,7 @@ import A1B1O3.bodyrecord.member.domain.Member;
 import A1B1O3.bodyrecord.member.domain.repository.MemberRepository;
 import A1B1O3.bodyrecord.util.UploadFile;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.SliceImpl;
@@ -43,12 +44,12 @@ public class ExerciseService {
 
 
     @Transactional(readOnly = true)
-    public List<ExerciseResponse> getAllExercise(final int memberCode) {
+    public List<ExerciseResponse> getAllExercise(final int memberCode, @Value("${image.image-url}") final String imageUrl) {
 
         final List<Exercise> exercises = exerciseRepository.findAllByMemberMemberCode(memberCode);
 
         return exercises.stream()
-                .map(exercise -> ExerciseResponse.from(exercise))
+                .map(exercise -> ExerciseResponse.from(exercise, imageUrl))
                 .collect(Collectors.toList());
     }
 

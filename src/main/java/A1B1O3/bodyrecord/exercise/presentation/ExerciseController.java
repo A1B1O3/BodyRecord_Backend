@@ -38,8 +38,8 @@ public class ExerciseController {
     @ApiResponse(code = 200, message = "success", response = ExerciseResponse.class)
 
     @GetMapping
-    public ResponseEntity<List<ExerciseResponse>> getExercises(@AuthenticationPrincipal PrincipalDetails principalDetails){
-        final List<ExerciseResponse> exerciseResponse = exerciseService.getAllExercise(principalDetails.getMember().getMemberCode());
+    public ResponseEntity<List<ExerciseResponse>> getExercises(@AuthenticationPrincipal PrincipalDetails principalDetails, @Value("${image.image-url}") String imageUrl){
+        final List<ExerciseResponse> exerciseResponse = exerciseService.getAllExercise(principalDetails.getMember().getMemberCode(),imageUrl);
         return ResponseEntity.ok(exerciseResponse);
     }
     @ApiOperation(value = "나의 운동기록 상세 조회", notes = "회원코드와 운동코드를 기반으로 특정 회원의 특정 운동 기록을 보여준다.")
