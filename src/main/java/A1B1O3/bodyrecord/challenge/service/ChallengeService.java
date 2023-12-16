@@ -75,15 +75,22 @@ public class ChallengeService {
     /* 4. 챌린지 등록 */
     @Transactional
     public ChallengeResponse createChallenge(int memberCode, ChallengeRequest challengeRequest) {
+        Member member = (Member) memberRepository.findByMemberCode(memberCode)
+                .orElseThrow(() -> new EntityNotFoundException("Member not found with code: " + memberCode));
+
+        // 멤버가 이미 종료일이 지나지 않은 챌린지를 가지고 있는지 확인
+        boolean hasActiveChallenge = challengeRepository.existsByMemberCodeAndChallengeEnddateAfterAndChallengeEnddateBefore(
+                member, LocalDate.now(), LocalDate.of(9999, 12, 31));
+
+        if (hasActiveChallenge) {
+            throw new IllegalStateException("멤버가 이미 종료일이 지나지 않은 챌린지를 가지고 있습니다.");
+        }
 
         ChallengeCategory challengeCategory = challengeCategoryRepository
                 .findByChallengecategoryCode(challengeRequest.getChallengecategoryCode())
                 .orElseThrow(() -> new EntityNotFoundException("ChallengeCategory not found with code: " + challengeRequest.getChallengecategoryCode()));
 
-        Member member = (Member) memberRepository.findByMemberCode(memberCode)
-                .orElseThrow(() -> new EntityNotFoundException("Member not found with code: " + memberCode));
-
-        //챌린지 생성,저장
+        // 챌린지 생성, 저장
         Challenge challenge = new Challenge();
         challenge.setChallengeTitle(challengeRequest.getChallengeTitle());
         challenge.setChallengeContent(challengeRequest.getChallengeContent());
@@ -93,7 +100,7 @@ public class ChallengeService {
         challenge.setChallengeEnddate(challengeRequest.getChallengeEnddate());
         Challenge createdChallenge = challengeRepository.save(challenge);
 
-        //챌린지 참여 생성,저장
+        // 챌린지 참여 생성, 저장
         ChallengeParticipate challengeParticipate = new ChallengeParticipate();
         challengeParticipate.setChallengeCode(createdChallenge);
         challengeParticipate.setMemberCode(member);
