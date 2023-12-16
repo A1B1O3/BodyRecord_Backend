@@ -5,6 +5,7 @@ import A1B1O3.bodyrecord.member.domain.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,6 +33,10 @@ public interface ChallengeRepository extends JpaRepository<Challenge, Integer> {
 
     /* 챌린지를 신규순 (createdAt) */
     List<Challenge> findAllByOrderByCreatedAtDesc();
+
+    /* 챌린지 등록 */
+    boolean existsByMemberCodeAndChallengeEnddateAfterAndChallengeEnddateBefore(
+            Member member, LocalDate currentDate, LocalDate maxDate);
 
 
 
