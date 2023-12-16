@@ -10,9 +10,9 @@ spring:
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://bodyrecord.co85qw0w4e2n.ap-northeast-2.rds.amazonaws.com:3306/restapi_backend
-    username: BodyRecord
-    password: tel64370360!
+    url: jdbc:mysql://localhost:3306/body_record
+    username: root
+    password: 1234
 
   jpa:
     hibernate:
@@ -32,7 +32,7 @@ spring:
 
 image:
   image-url: http://13.124.77.222/images/
-  image-dir: /images
+  image-dir: C:/
   add-resource-locations: file:////images/
   add-resource-handler: /images/**
 
