@@ -14,7 +14,7 @@ public class UploadFile {
     private String uploadPath;
 
     public String makeDir(String dirName){
-        String exerciseImages = File.separator + dirName;
+        String exerciseImages = "/" + dirName;
         if(!new File(uploadPath + exerciseImages, exerciseImages).exists()) {
             new File(uploadPath, exerciseImages).mkdir();
         }
@@ -31,6 +31,7 @@ public class UploadFile {
         file.transferTo(saveFile);
         return (dir + "/" + fileName);
     }
+
     public String profileUpload(MultipartFile file) throws IOException {
         UUID uuid = UUID.randomUUID();
         String fileName = uuid + "_" + file.getOriginalFilename();
