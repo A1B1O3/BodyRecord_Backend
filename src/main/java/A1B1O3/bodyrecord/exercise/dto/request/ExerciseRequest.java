@@ -24,7 +24,6 @@ public class ExerciseRequest {
 
     private final String exerciseImagePath;
 
-
     private final Boolean exerciseShare;
 
     @JsonFormat(pattern = "yyyy-mm-dd")
