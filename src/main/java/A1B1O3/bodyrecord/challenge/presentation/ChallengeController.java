@@ -101,13 +101,18 @@ public class ChallengeController {
     })
     @ApiResponses({
             @ApiResponse(code = 201, message = "챌린지 인증 성공"),
+            @ApiResponse(code = 400, message = "잘못된 요청 형식"),
+            @ApiResponse(code = 401, message = "인증 실패"),
+            @ApiResponse(code = 403, message = "접근 권한 없음"),
+            @ApiResponse(code = 404, message = "챌린지가 존재하지 않음"),
+            @ApiResponse(code = 500, message = "서버 오류")
     })
     /* 6. 챌린지 인증 */
     @PostMapping("/certify/{challengeCode}")
     public ResponseEntity<Void> certifyChallenge(
             @AuthenticationPrincipal PrincipalDetails principalDetails,
             @PathVariable int challengeCode,
-            @RequestParam("challengeImageFile") MultipartFile challengeImageFile) {
+            @RequestPart("challengeImageFile") MultipartFile challengeImageFile) {
 
         challengeService.certifyChallenge(challengeCode, principalDetails.getMember().getMemberCode(), challengeImageFile);
         return ResponseEntity.status(HttpStatus.CREATED).build();

@@ -38,8 +38,15 @@ public class ChallengeService {
         ChallengeCategory challengeCategory = challengeCategoryRepository
                 .findByChallengecategoryCode(challengeCategoryCode)
                 .orElseThrow(() -> new EntityNotFoundException("ChallengeCategory not found with challengeCategoryCode: " + challengeCategoryCode));
+
+        LocalDate currentDate = LocalDate.now();
+
         List<Challenge> challenges = challengeRepository.findAllByChallengecategoryCode(challengeCategory);
-        return challenges.stream()
+        List<Challenge> activeChallenges = challenges.stream()
+                .filter(challenge -> challenge.getChallengeEnddate().isAfter(currentDate))
+                .collect(Collectors.toList());
+
+        return activeChallenges.stream()
                 .map(challenge -> ChallengeCategoryResponse.from(challenge, challengeCategory))
                 .collect(Collectors.toList());
     }
@@ -224,7 +231,10 @@ public class ChallengeService {
 
     /* 11. 인기순 챌린지 조회 */
     public List<ChallengePopularResponse> getPopularChallenges() {
-        List<Challenge> popularChallenges = challengeRepository.findAllByOrderByChallengeParticipatesCountDesc();
+        LocalDate currentDate = LocalDate.now();
+
+        List<Challenge> popularChallenges = challengeRepository.findChallengesAfterEnddateOrderByParticipatesCount(currentDate);
+
         return popularChallenges.stream()
                 .map(ChallengePopularResponse::fromEntity)
                 .collect(Collectors.toList());
@@ -233,7 +243,10 @@ public class ChallengeService {
 
     /* 12. 신규순 챌린지 조회 */
     public List<ChallengeNewResponse> getChallengesByCreatedAtDesc() {
-        List<Challenge> challenges = challengeRepository.findAllByOrderByCreatedAtDesc();
+        LocalDate currentDate = LocalDate.now();
+
+        List<Challenge> challenges = challengeRepository.findAllByChallengeEnddateAfterOrderByCreatedAtDesc(currentDate);
+
         return challenges.stream()
                 .map(challenge -> ChallengeNewResponse.from(challenge))
                 .collect(Collectors.toList());
