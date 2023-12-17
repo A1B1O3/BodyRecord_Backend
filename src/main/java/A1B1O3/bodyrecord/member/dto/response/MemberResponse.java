@@ -28,6 +28,16 @@ public class MemberResponse {
                 member.getState()
         );
     }
+    public static MemberResponse from2(final Member member) {
+        return new MemberResponse(
+                member.getMemberCode(),
+                member.getMemberSocialid(),
+                member.getMemberName(),
+                member.getMemberImage(),
+                member.getMemberNickname(),
+                member.getState()
+        );
+    }
 
 
 }
